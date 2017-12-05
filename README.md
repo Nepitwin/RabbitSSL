@@ -2,9 +2,19 @@
 
 SSL-Example for Python and Java Clients from https://www.rabbitmq.com/ssl.html.
 
-## Certificate Install Guide
+## Docker - RabbitMQ-Server
 
-Copy /Certificates/testca/cacert.pem, /Certificates/server/key.pem and /Certificates/server/cert.pem to /etc/ssl/rabbit/ to setup certificate example files to establish a rabbitmq SSL connection.
+If you don't want create your own RabbitMQ-Server a docker container can be used. Build and Start a sample RabbitMQ TLS Docker Container to test TLS-Messaging.
+
+```
+cd Docker
+docker build --rm=true --tag=ssl/rabbit .
+docker run -d -p 5671:5671 ssl/rabbit
+```
+
+## RabbitMQ-Server Certificates Setup
+
+Copy /Certificates/testca/cacert.pem, /Certificates/server/key.pem and /Certificates/server/cert.pem to /etc/ssl/rabbit/ to setup certificate example files to establish a RabbitMQ-TLS connection.
 
 ```
 cd /etc/ssl/
@@ -15,7 +25,7 @@ cp /Certificates/server/cert.pem /etc/ssl/rabbit/cert.pem
 cp /Certificates/server/key.pem /etc/ssl/rabbit/key.pem
 ```
 
-## SSL-Configuration
+### SSL-Configuration
 
 Copy this example file for RabbiMQ and restart service.
 
@@ -35,6 +45,24 @@ Copy this example file for RabbiMQ and restart service.
 ## Execute Examples
 
 Use Java (Gradle) or Python examples to execute examples.
+
+### Python
+
+Python client is split up for a consumer (rabitssl_consume.py) and producer (rabitssql_send.py). Producer sends a message to RabbitMQ-Server and consumer receives this message. PIKA is needed to establish connections.
+
+```
+cd Python
+python rabitssql_consume.py/rabitssql_send.py
+```
+
+### Java
+
+Java client sends and receives message from a single main file. Simple use Gradle to build and run example.
+
+```
+cd Java
+gradle run
+```
 
 ## License
 

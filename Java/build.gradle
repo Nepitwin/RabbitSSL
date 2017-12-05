@@ -2,6 +2,7 @@ group 'RabbitSSL'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
@@ -9,9 +10,9 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+mainClassName = "Main"
 
+dependencies {
     // https://mvnrepository.com/artifact/com.rabbitmq/amqp-client
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '4.2.0'
 }
