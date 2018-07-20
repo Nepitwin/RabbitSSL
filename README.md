@@ -64,9 +64,19 @@ cd Java
 gradle run
 ```
 
+## Spring-Boot-amqp
+
+RabbitMQ-SSL Spring-Boot example can be build and executed to use Gradle. Clients sends by
+scheduled task every 5 seconds a sample message.
+
+```
+cd Spring
+gradle bootRun
+```
+
 ## License
 
-Copyright 2017 Andreas Sekulski
+Copyright 2017-2018 Andreas Sekulski
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
