@@ -4,12 +4,17 @@ SSL-Example for Python and Java Clients from https://www.rabbitmq.com/ssl.html.
 
 ## Docker - RabbitMQ-Server
 
-If you don't want create your own RabbitMQ-Server a docker container can be used. Build and Start a sample RabbitMQ TLS Docker Container to test TLS-Messaging.
+If you don't want create your own RabbitMQ-Server a docker container can be used. Build and Start a sample RabbitMQ TLS Docker Container to test TLS-Messaging. Build docker container or use container from Dockerhub.
 
 ```
 cd Docker
 docker build --rm=true --tag=ssl/rabbit .
 docker run -d -p 5671:5671 ssl/rabbit
+```
+
+```
+docker pull nepitwin/rabbitssl
+docker run -d -p 5671:5671 nepitwin/rabbitssl
 ```
 
 ## RabbitMQ-Server Certificates Setup
