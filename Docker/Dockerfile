@@ -10,14 +10,14 @@ RUN mkdir /etc/ssl/rabbit
 ADD rabbitmq.config /etc/rabbitmq/
 RUN chown rabbitmq:rabbitmq /etc/rabbitmq/rabbitmq.config
 
-ADD cert.pem /etc/ssl/rabbit/
-RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/cert.pem
+ADD ca_certificate.pem /etc/ssl/rabbit/
+RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/ca_certificate.pem
 
-ADD key.pem /etc/ssl/rabbit/
-RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/key.pem
+ADD server_certificate.pem /etc/ssl/rabbit/
+RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/server_certificate.pem
 
-ADD cacert.pem /etc/ssl/rabbit/
-RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/cacert.pem
+ADD server_key.pem /etc/ssl/rabbit/
+RUN chown rabbitmq:rabbitmq /etc/ssl/rabbit/server_key.pem
 
 # Define environment variables.
 ENV RABBITMQ_USER admin
