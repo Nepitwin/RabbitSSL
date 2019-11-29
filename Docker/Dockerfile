@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 
 RUN apt-get update
-RUN apt-get install nano rabbitmq-server -y
+RUN apt-get install rabbitmq-server -y
 
 # SSL-Configuration
 RUN mkdir /etc/ssl
