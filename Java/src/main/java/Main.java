@@ -36,12 +36,12 @@ public class Main {
     /**
      * Client certificate as pkcs #12 file format.
      */
-    private static final String CLIENT_CERTIFICATE = "keycert.p12";
+    private static final String CLIENT_CERTIFICATE = "client_key.p12";
 
     /**
      * Client password from certificate. This INFORMATION should be stored safely!!!!
      */
-    private static final String CLIENT_PASSWORD_CERTIFICATE = "MySecretPassword";
+    private static final String CLIENT_PASSWORD_CERTIFICATE = "rabbitstore";
 
     /**
      * Given file format from client certificates.
@@ -51,7 +51,7 @@ public class Main {
     /**
      * Server certificate as java keystore.
      */
-    private static final String SERVER_CERTIFICATE = "rabbitstore.jks";
+    private static final String SERVER_CERTIFICATE = "server_store.jks";
 
     /**
      * Password from java keystore. This INFORMATION should be stored safely!!!!
@@ -71,7 +71,7 @@ public class Main {
     /**
      * Rabbitmq server ip.
      */
-    private static final String RABBIT_MQ_HOST = "127.0.0.1";
+    private static final String RABBIT_MQ_HOST = "localhost";
 
     /**
      * Rabbitmq port to listen.
@@ -93,53 +93,60 @@ public class Main {
      */
     private static final String RABBIT_MQ_CHANNEL = "rabbitmq-java-ssl-test";
 
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        URL serverCertificate = ClassLoader.getSystemClassLoader().getResource(SERVER_CERTIFICATE);
-        URL clientCertificate = ClassLoader.getSystemClassLoader().getResource(CLIENT_CERTIFICATE);
+        try
+        {
+            URL serverCertificate = ClassLoader.getSystemClassLoader().getResource(SERVER_CERTIFICATE);
+            URL clientCertificate = ClassLoader.getSystemClassLoader().getResource(CLIENT_CERTIFICATE);
 
-        char[] keyPassphrase = CLIENT_PASSWORD_CERTIFICATE.toCharArray();
-        KeyStore ks = KeyStore.getInstance(KEYSTORE_CLIENT);
-        assert clientCertificate != null;
-        ks.load(new FileInputStream(clientCertificate.getFile()), keyPassphrase);
+            char[] keyPassphrase = CLIENT_PASSWORD_CERTIFICATE.toCharArray();
+            KeyStore ks = KeyStore.getInstance(KEYSTORE_CLIENT);
+            assert clientCertificate != null;
+            ks.load(new FileInputStream(clientCertificate.getFile()), keyPassphrase);
 
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        kmf.init(ks, keyPassphrase);
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            kmf.init(ks, keyPassphrase);
 
-        char[] trustPassphrase = SERVER_CERTIFICATE_PASSWORD.toCharArray();
-        KeyStore tks = KeyStore.getInstance(SERVER_CERTIFICATE_TYPE);
-        assert serverCertificate != null;
-        tks.load(new FileInputStream(serverCertificate.getFile()), trustPassphrase);
+            char[] trustPassphrase = SERVER_CERTIFICATE_PASSWORD.toCharArray();
+            KeyStore tks = KeyStore.getInstance(SERVER_CERTIFICATE_TYPE);
+            assert serverCertificate != null;
+            tks.load(new FileInputStream(serverCertificate.getFile()), trustPassphrase);
 
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(tks);
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(tks);
 
-        SSLContext c = SSLContext.getInstance(TLS_TYPE);
-        c.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+            SSLContext c = SSLContext.getInstance(TLS_TYPE);
+            c.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(RABBIT_MQ_HOST);
-        factory.setPort(RABBIT_MQ_PORT);
-        factory.setUsername(RABBIT_MQ_USER);
-        factory.setPassword(RABBIT_MQ_PASSWORD);
-        factory.useSslProtocol(c);
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost(RABBIT_MQ_HOST);
+            factory.setPort(RABBIT_MQ_PORT);
+            factory.setUsername(RABBIT_MQ_USER);
+            factory.setPassword(RABBIT_MQ_PASSWORD);
+            factory.useSslProtocol(c);
 
-        Connection conn = factory.newConnection();
-        Channel channel = conn.createChannel();
+            Connection conn = factory.newConnection();
+            Channel channel = conn.createChannel();
 
-        //non-durable, exclusive, auto-delete queue
-        channel.queueDeclare(RABBIT_MQ_CHANNEL, false, true, true, null);
-        channel.basicPublish("", RABBIT_MQ_CHANNEL, null, "Hello SSL World :-)".getBytes());
+            //non-durable, exclusive, auto-delete queue
+            channel.queueDeclare(RABBIT_MQ_CHANNEL, false, true, true, null);
+            channel.basicPublish("", RABBIT_MQ_CHANNEL, null, "Hello SSL World :-)".getBytes());
 
-        GetResponse chResponse = channel.basicGet(RABBIT_MQ_CHANNEL, false);
-        if(chResponse == null) {
-            System.out.println("No message retrieved");
-        } else {
-            byte[] body = chResponse.getBody();
-            System.out.println("Received: " + new String(body));
+            GetResponse chResponse = channel.basicGet(RABBIT_MQ_CHANNEL, false);
+            if(chResponse == null) {
+                System.out.println("No message retrieved");
+            } else {
+                byte[] body = chResponse.getBody();
+                System.out.println("Received: " + new String(body));
+            }
+
+            channel.close();
+            conn.close();
         }
-
-        channel.close();
-        conn.close();
+        catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
     }
 }
