@@ -17,7 +17,49 @@ docker pull nepitwin/rabbitssl
 docker run -d -p 5671:5671 nepitwin/rabbitssl
 ```
 
-## RabbitMQ-Server Certificates Setup
+## RabbitMQ-Server Certificates
+
+### SSL Certificate Generation
+
+Using tls-gen's tool from michael klishin --> https://github.com/michaelklishin/tls-ge
+
+```
+git clone https://github.com/michaelklishin/tls-gen
+cd tls-gen/basic
+# private key password
+make PASSWORD=bunnies
+make verify
+make info
+```
+
+```
+ls -l ./result
+# Files generated in result folder
+--> ca_certificate.pem
+--> ca_key.pem
+--> client_certificate.pem
+--> client_key.p12
+--> client_key.pem
+--> server_certificate.pem
+--> server_key.p12
+--> server_key.pem
+```
+
+### Create a Java Keystore File
+
+https://docs.cloudera.com/documentation/enterprise/5-10-x/topics/cm_sg_openssl_jks.html
+
+```
+cd result
+
+keytool.exe -importkeystore -srckeystore server_key.p12
+  -srcstoretype PKCS12 -srcstorepass bunnies 
+  -deststorepass bunnies -destkeypass password 
+  -destkeystore server_store.jks
+```
+
+
+### SSL Certificate Setup
 
 Copy /Certificates/testca/cacert.pem, /Certificates/server/key.pem and /Certificates/server/cert.pem to /etc/ssl/rabbit/ to setup certificate example files to establish a RabbitMQ-TLS connection.
 
