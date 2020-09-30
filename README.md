@@ -4,24 +4,20 @@ SSL-Example for Python and Java Clients from https://www.rabbitmq.com/ssl.html.
 
 ## Docker - RabbitMQ-Server
 
-If you don't want create your own RabbitMQ-Server a docker container can be used. Build and Start a sample RabbitMQ TLS Docker Container to test TLS-Messaging. Build docker container or use container from Dockerhub.
+Simple use docker-compose to create a docker rabbitmq container with ssl support.
 
 ```
 cd Docker
-docker build --rm=true --tag=ssl/rabbit .
-docker run -d -p 5671:5671 ssl/rabbit
-```
-
-```
-docker pull nepitwin/rabbitssl
-docker run -d -p 5671:5671 nepitwin/rabbitssl
+docker-compose up
 ```
 
 ## RabbitMQ-Server Certificates
 
 ### SSL Certificate Generation
 
-Using tls-gen's tool from michael klishin --> https://github.com/michaelklishin/tls-ge
+Rabbitmq ssl-tutorial --> https://www.rabbitmq.com/ssl.html
+
+Using tls-gen's tool from michael klishin --> https://github.com/michaelklishin/tls-gen
 
 ```
 git clone https://github.com/michaelklishin/tls-gen
@@ -76,6 +72,8 @@ cp /Certificates/server/key.pem /etc/ssl/rabbit/key.pem
 
 Copy this example file for RabbiMQ and restart service.
 
+Old syntax by rabbitmq.config
+
 ```
 [
   {rabbit, [
@@ -87,6 +85,19 @@ Copy this example file for RabbiMQ and restart service.
                     {fail_if_no_peer_cert,true}]}
    ]}
 ].
+```
+
+New syntax by rabbitmq.conf
+
+```
+listeners.tcp = none
+listeners.ssl.default = 5671
+
+ssl_options.cacertfile           = /etc/ssl/rabbit/ca_certificate.pem
+ssl_options.certfile             = /etc/ssl/rabbit/server_certificate.pem
+ssl_options.keyfile              = /etc/ssl/rabbit/server_key.pem
+ssl_options.verify               = verify_peer
+ssl_options.fail_if_no_peer_cert = true
 ```
 
 ## Execute Examples
