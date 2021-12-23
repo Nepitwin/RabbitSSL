@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.5.1'
+        springBootVersion = '2.6.2'
     }
     repositories {
         mavenCentral()
@@ -25,5 +25,5 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.5.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.6.2'
 }
