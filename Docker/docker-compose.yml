@@ -1,6 +1,6 @@
 services:
     rabbitmq:
-        image: rabbitmq:3.9.14
+        image: rabbitmq:3.9.22
         container_name: rabbitssl
         ports:
             - 5671:5671
