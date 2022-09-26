@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from configuration import *
+import pika
+
+from configuration import parameters, rabbit_queue_opts
 
 try:
     with pika.BlockingConnection(parameters) as connection:
@@ -24,5 +26,5 @@ try:
                               body=rabbit_queue_opts["message"])
 
         print(" [x] Sent '" + rabbit_queue_opts['message'] + "!'")
-except BaseException as e:
+except Exception as e:
     print(str(e), e.__class__.__name__)

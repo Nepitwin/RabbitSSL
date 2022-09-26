@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from configuration import *
+import pika
+from configuration import rabbit_queue_opts, parameters
 
 try:
     with pika.BlockingConnection(parameters) as connection:
@@ -28,5 +29,5 @@ try:
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
-except BaseException as e:
+except Exception as e:
     print(str(e), e.__class__.__name__)
