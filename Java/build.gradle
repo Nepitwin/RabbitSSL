@@ -4,8 +4,8 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 
-sourceCompatibility = JavaVersion.VERSION_18
-targetCompatibility = JavaVersion.VERSION_18
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -15,8 +15,8 @@ mainClassName = "Main"
 
 dependencies {
     // https://mvnrepository.com/artifact/com.rabbitmq/amqp-client
-    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.14.2'
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.16.0'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
-    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '2.0.2'
 }
