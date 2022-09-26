@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.6.6'
+        springBootVersion = '2.7.4'
     }
     repositories {
         mavenCentral()
@@ -16,8 +16,8 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.example.spring'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_18
-targetCompatibility = JavaVersion.VERSION_18
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -25,5 +25,5 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.6.6'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.7.4'
 }
