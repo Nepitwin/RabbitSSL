@@ -97,7 +97,7 @@ public class RabbitConfiguration {
      */
     @Bean
     public Queue queue() {
-        // Create an new queue to handle incoming responds
+        // Create a new queue to handle incoming responds
         return new Queue(DEFAULT_QUEUE, false, false, false, null);
     }
 
