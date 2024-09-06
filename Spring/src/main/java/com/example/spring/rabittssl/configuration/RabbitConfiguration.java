@@ -62,6 +62,9 @@ public class RabbitConfiguration {
      */
     public static final boolean QueueAutoDelete = false;
 
+    /**
+     * Additional queue arguments to set.
+     */
     public static final Map<String, Object> QueueArguments = null;
 
     /**
