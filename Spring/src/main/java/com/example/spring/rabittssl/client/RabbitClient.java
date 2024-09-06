@@ -55,7 +55,11 @@ public class RabbitClient {
 
         Connection connection = factory.createConnection();
         Channel channel = connection.createChannel(false);
-        channel.queueDeclare(channelName, false, false, false, null);
+        channel.queueDeclare(channelName,
+                RabbitConfiguration.QueueDurable,
+                RabbitConfiguration.QueueExclusive,
+                RabbitConfiguration.QueueAutoDelete,
+                RabbitConfiguration.QueueArguments);
         channel.basicPublish("", channelName, null, message.getBytes());
         channel.close();
         connection.close();

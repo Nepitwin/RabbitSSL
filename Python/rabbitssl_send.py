@@ -19,7 +19,7 @@ from configuration import parameters, rabbit_queue_opts
 try:
     with pika.BlockingConnection(parameters) as connection:
         channel = connection.channel()
-        channel.queue_declare(queue=rabbit_queue_opts["queue"])
+        channel.queue_declare(queue=rabbit_queue_opts["queue"], durable=True)
 
         channel.basic_publish(exchange='',
                               routing_key=rabbit_queue_opts["queue"],

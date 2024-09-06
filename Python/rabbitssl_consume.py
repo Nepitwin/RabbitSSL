@@ -18,7 +18,7 @@ from configuration import rabbit_queue_opts, parameters
 try:
     with pika.BlockingConnection(parameters) as connection:
         channel = connection.channel()
-        channel.queue_declare(queue=rabbit_queue_opts["queue"])
+        channel.queue_declare(queue=rabbit_queue_opts["queue"], durable=True)
 
         def callback(ch, method, properties, body):
             print(" [x] Received %r" % body)

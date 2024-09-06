@@ -15,8 +15,8 @@ mainClassName = "Main"
 
 dependencies {
     // https://mvnrepository.com/artifact/com.rabbitmq/amqp-client
-    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.20.0'
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.21.0'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
-    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '2.0.2'
+    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '2.0.16'
 }

@@ -31,6 +31,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -45,6 +46,23 @@ public class RabbitConfiguration {
      * Default sample channel name to respond for requests from clients.
      */
     public static final String DEFAULT_QUEUE = "sample_queue";
+
+    /**
+     * Use durable queues for persistent storage.
+     */
+    public static final boolean QueueDurable = true;
+
+    /**
+     * Use exclusive queues if they should be restricted to the connection that created them.
+     */
+    public static final boolean QueueExclusive = false;
+
+    /**
+     * Auto deletion from channel if not required anymore.
+     */
+    public static final boolean QueueAutoDelete = false;
+
+    public static final Map<String, Object> QueueArguments = null;
 
     /**
      * Environment properties file from rabbitmq configuration.
@@ -93,12 +111,12 @@ public class RabbitConfiguration {
 
     /**
      * Queue initialization from rabbitmq to listen a queue.
-     * @return An queue to listen for listen receiver.
+     * @return A queue to listen for listen receiver.
      */
     @Bean
     public Queue queue() {
         // Create a new queue to handle incoming responds
-        return new Queue(DEFAULT_QUEUE, false, false, false, null);
+        return new Queue(DEFAULT_QUEUE, QueueDurable, QueueExclusive, QueueAutoDelete, QueueArguments);
     }
 
     /**

@@ -1,6 +1,6 @@
 services:
     rabbitmq:
-        image: rabbitmq:3.13.0-alpine
+        image: rabbitmq:3.13.7-alpine
         container_name: rabbitssl
         ports:
             - 5671:5671
